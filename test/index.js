@@ -6,7 +6,7 @@ const fs   = require('fs');
 const expect = require('expect.js');
 const Pulse  = require('../lib/Pulse');
 const yaml = require('js-yaml');
-
+const sleep = require('nyks/async/sleep');
 
 describe("Initial test suite", function() {
 
@@ -26,6 +26,27 @@ describe("Initial test suite", function() {
     }
 
     expect(Object.keys(pulse.tasks)).to.eql(Object.keys(tasks));
+  });
+
+
+  it("should execute on loop", async () => {
+    let task_name = "bash/hostname-loop";
+    let task = pulse.tasks[task_name];
+    task.start();
+
+    let last = 0;
+    do {
+      let {success_count} = task;
+      if(success_count != last) {
+        last = success_count;
+        console.log("Got execution", last);
+      }
+      if(success_count == 4)
+        break;
+      await sleep(1000);
+    } while(true);
+
+    task.stop();
   });
 
 
