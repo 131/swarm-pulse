@@ -4,3 +4,5 @@
 /coverage
 /test
 /disc
+.git*
+v8-compile-cache-0

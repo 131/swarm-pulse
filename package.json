@@ -5,9 +5,9 @@
   "scripts": {
     "mocha": "node node_modules/mocha/bin/_mocha -b",
     "cover": "nyc mocha",
+    "test": "npm run eslint",
     "preversion": "npm run checkall",
-    "eslint": "eslint .",
-    "checkall": "npm run eslint"
+    "eslint": "eslint ."
   },
   "repository": {
     "type": "git",
