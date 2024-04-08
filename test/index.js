@@ -19,8 +19,11 @@ describe("Initial test suite", function() {
   it("Should load sample tasks", () => {
     let config = fs.readFileSync(path.join(__dirname, 'tasks-simple.yml'), 'utf-8');
     let {tasks} = yaml.load(config);
-    for(let [task_name, task] of Object.entries(tasks))
-      pulse.configure(task_name, task);
+    for(let [task_name, task_specs] of Object.entries(tasks)) {
+      let task = pulse.register(task_name);
+      if(task)
+        task.configure(task_specs);
+    }
 
     expect(Object.keys(pulse.tasks)).to.eql(Object.keys(tasks));
   });
@@ -28,7 +31,7 @@ describe("Initial test suite", function() {
 
 
   it("should prevent double execute", async () => {
-    let task_sum = "clyks/node-sum";
+    let task_sum = "bash/sum";
     let foo = await Promise.all([pulse.execute(task_sum), pulse.execute(task_sum)]);
     expect(foo).to.eql([true, true]);
 
@@ -41,7 +44,7 @@ describe("Initial test suite", function() {
   });
 
   it("should fail on failure", async () => {
-    let task_failure = "clyks/bash-failure";
+    let task_failure = "bash/failure";
     let foo = await pulse.execute(task_failure);
     expect(foo).to.eql(false);
 

@@ -5,7 +5,7 @@
   "scripts": {
     "mocha": "node node_modules/mocha/bin/_mocha -b",
     "cover": "nyc mocha",
-    "test": "npm run eslint",
+    "test": "npm run eslint && npm run cover",
     "preversion": "npm run checkall",
     "eslint": "eslint ."
   },
