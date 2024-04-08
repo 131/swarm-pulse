@@ -1,0 +1,28 @@
+version: "3.8"
+
+tasks:
+  clyks/rclone:
+    plan: false
+    image: debian:bullseye@sha256:2ce44bbc00a79113c296d9d25524e15d423b23303fdbbe20190d2f96e0aeb251
+    command: hostname
+
+  clyks/bash-sum:
+    plan: false
+    image: debian:bullseye@sha256:2ce44bbc00a79113c296d9d25524e15d423b23303fdbbe20190d2f96e0aeb251
+    entrypoint: /bin/sh
+    command:
+      - -c
+      - |
+        echo $((1+1))
+
+  clyks/bash-failure:
+    plan: false
+    image: debian:bullseye@sha256:2ce44bbc00a79113c296d9d25524e15d423b23303fdbbe20190d2f96e0aeb251
+    entrypoint: /bin/sh
+    command:
+      - -c
+      - |
+        echo $((1+1))
+        exit 1
+
+

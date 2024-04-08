@@ -1,0 +1,12 @@
+{
+  "root": true,
+
+  rules: {
+    'yml/indent': 0
+  },
+
+  "extends": [
+    "plugin:ivs/node",
+    "plugin:yml/standard"
+  ]
+}

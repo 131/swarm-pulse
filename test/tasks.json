@@ -1,0 +1,51 @@
+{
+    "clyks/rclone": {
+      "plan": false,
+      "image": "rclone/rclone@sha256:f186eb535186c0da798385e1710e09c9bcfadc2a1efa176959d9462d96d9b8b8",
+      "command": "version",
+      "logging": {
+        "driver": "json-file"
+      },
+      "deploy": {
+        "placement": {
+          "constraints": [
+            "node.role == manager"
+          ]
+        }
+      }
+    },
+    "clyks/node-sum": {
+      "plan": false,
+      "image": "node:12@sha256:abdc89a44a89c4bfb473fd3b9e62c1334d764c20514ab644ec165868cca9d708",
+      "command": "-p \"1+1\"",
+      "logging": {
+        "driver": "json-file"
+      },
+      "deploy": {
+        "placement": {
+          "constraints": [
+            "node.role == manager"
+          ]
+        }
+      }
+    },
+    "clyks/bash-failure": {
+      "plan": false,
+      "image": "debian:bullseye@sha256:2ce44bbc00a79113c296d9d25524e15d423b23303fdbbe20190d2f96e0aeb251",
+      "entrypoint": "/bin/sh",
+      "command": [
+        "-c",
+        "echo $((1+1))\nexit 1\n"
+      ],
+      "logging": {
+        "driver": "json-file"
+      },
+      "deploy": {
+        "placement": {
+          "constraints": [
+            "node.role == manager"
+          ]
+        }
+      }
+    }
+}
