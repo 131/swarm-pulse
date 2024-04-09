@@ -29,6 +29,35 @@ describe("Initial test suite", function() {
   });
 
 
+
+
+  it("should prevent double execute", async () => {
+    let task_sum = "bash/sum";
+    let foo = await Promise.all([pulse.execute(task_sum), pulse.execute(task_sum)]);
+    expect(foo).to.eql([true, true]);
+
+    let {previous_job, success_count, failure_count} = pulse.tasks[task_sum];
+    expect(success_count).to.eql(2);
+    expect(failure_count).to.eql(0);
+
+    expect(previous_job.status).to.eql("success");
+  });
+
+  it("should fail on failure", async () => {
+    let task_failure = "bash/failure";
+    let foo = await pulse.execute(task_failure);
+    expect(foo).to.eql(false);
+
+    let {success_count, failure_count, previous_job} = pulse.tasks[task_failure].export_status();
+
+    expect(success_count).to.eql(0);
+    expect(failure_count).to.eql(1);
+
+    expect(previous_job.status).to.eql("failure");
+  });
+
+
+
   it("should execute on loop", async () => {
     let task_name = "bash/hostname-loop";
     let task = pulse.tasks[task_name];
@@ -47,34 +76,6 @@ describe("Initial test suite", function() {
     } while(true);
 
     task.stop();
-  });
-
-
-
-  it("should prevent double execute", async () => {
-    let task_sum = "bash/sum";
-    let foo = await Promise.all([pulse.execute(task_sum), pulse.execute(task_sum)]);
-    expect(foo).to.eql([true, true]);
-
-    let {previous_job, success_count, failure_count} = pulse.tasks[task_sum];
-
-    expect(success_count).to.eql(2);
-    expect(failure_count).to.eql(0);
-
-    expect(previous_job.status).to.eql("success");
-  });
-
-  it("should fail on failure", async () => {
-    let task_failure = "bash/failure";
-    let foo = await pulse.execute(task_failure);
-    expect(foo).to.eql(false);
-
-    let {success_count, failure_count, previous_job} = pulse.tasks[task_failure].export_status();
-
-    expect(success_count).to.eql(0);
-    expect(failure_count).to.eql(1);
-
-    expect(previous_job.status).to.eql("failure");
   });
 
 
