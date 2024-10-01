@@ -1,6 +1,6 @@
 {
   "name": "swarm-pulse",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "scripts": {
     "mocha": "node node_modules/mocha/bin/_mocha -b",
