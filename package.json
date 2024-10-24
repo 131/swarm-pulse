@@ -30,7 +30,7 @@
     "nyc": "^15.0.1"
   },
   "dependencies": {
-    "@131/docker-sdk": "^2.0.1",
+    "@131/docker-sdk": "^2.1.0",
     "cnyks": "^3.2.1",
     "cron-parser": "^2.18.0",
     "debug": "^4.3.4",
