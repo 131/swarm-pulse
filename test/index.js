@@ -16,13 +16,13 @@ describe("Initial test suite", function() {
 
   let pulse = new Pulse(config);
 
-  it("Should load sample tasks", () => {
+  it("Should load sample tasks", async () => {
     let config = fs.readFileSync(path.join(__dirname, 'tasks-simple.yml'), 'utf-8');
     let {tasks} = yaml.load(config);
     for(let [task_name, task_specs] of Object.entries(tasks)) {
       let task = pulse.register(task_name);
       if(task)
-        task.configure(task_specs);
+        await task.configure(pulse.registry_auth, task_specs);
     }
 
     expect(Object.keys(pulse.tasks)).to.eql(Object.keys(tasks));
